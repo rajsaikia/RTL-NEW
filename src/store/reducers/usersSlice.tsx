@@ -1,10 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export const fetchUserDetails = createAsyncThunk('data/fetchData', async () => {
-  const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-  return response.data;
-});
+import fetchUserDetails from '@/services/restApi';
+import { createSlice } from '@reduxjs/toolkit';
 
 const dataSlice = createSlice({
   name: 'data',

@@ -1,5 +1,5 @@
 
-import { fetchUserDetails } from '@/store/reducers/usersSlice';
+import fetchUserDetails from '@/services/restApi';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
