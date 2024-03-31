@@ -1,0 +1,80 @@
+# Starter pipeline
+
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- dev
+
+pool:
+  name: 'Azure-Devops-Agent'
+
+variables:
+- group: pipeline_variables
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      #rm *lock*
+      mkdir env/dev -Force
+      mkdir -p env/stg -Force
+      mkdir -p env/prod -Force
+      #$env:NODE_OPTIONS = "--openssl-legacy-provider"
+      npm install --force
+      npm run build:moei-dev
+      Compress-Archive -Path dist/ -DestinationPath env/dev/drop.zip -Force -CompressionLevel Fastest
+      rm -fo dist/* -Recurse
+
+      npm run build:staging
+      Compress-Archive -Path dist/ -DestinationPath env/stg/drop.zip -Force -CompressionLevel Fastest
+      rm -fo dist/* -Recurse
+
+      npm run build:production
+      Compress-Archive -Path dist/ -DestinationPath env/prod/drop.zip -Force -CompressionLevel Fastest
+      rm -fo dist/* -Recurse
+      
+      Compress-Archive -Path env/ -DestinationPath $(Build.ArtifactStagingDirectory)/drop.zip -Force -CompressionLevel Fastest
+      
+      #Compress-Archive -Path * -DestinationPath $(Build.ArtifactStagingDirectory)/drop.zip -Force -CompressionLevel Fastest
+      # if ($changed_files.Contains("package.json")){
+      #   echo "Packages Changed"
+      #   $jsonObject.ChangedFiles = "True"
+      #   $env:NODE_OPTIONS = "--openssl-legacy-provider"
+      #   npm install --force
+      #   npm audit fix --force
+      #   npm run build:moei-dev --force
+      #   }
+      #   else {
+      #   echo "No Package Changes"
+      #   $jsonObject.ChangedFiles = "False"
+      #   $env:NODE_OPTIONS = "--openssl-legacy-provider"
+      #   # npm install --force 
+      #   # npm audit fix --force
+      #   npm run build:moei-dev --force
+      #   #npm install --force -and  npm run build:moei-dev
+      #   }
+      # $jsonUpdated = $jsonObject | ConvertTo-Json -Depth 100
+      # Set-Content -Path $jsonFilePath -Value $jsonUpdated
+      # $jsonContent = Get-Content -Path $jsonFilePath -Raw
+      # $jsonContent
+      # ls
+      # ls
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+#     includeRootFolder: true
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#     replaceExistingArchive: true
+#     quiet: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'

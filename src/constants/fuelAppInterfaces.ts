@@ -1,0 +1,15 @@
+export const MOEI_LOGIN = '107';
+export const MOEI_COMMON = '807';
+export const ATTACHMENT_INTERFACE = '609';
+export const MOEI_FP_CONFIG = '101';
+export const DAILY_DATA_CAPTURE_INTERFACE = '104';
+export const MOEI_DAILY_DATA_UPLOAD = '103';
+export const TASK_MANAGEMENT = '803';
+export const FUEL_PRICING_CONFIG_INTERFACE = '102';
+export const FUEL_PRICE_APPROVAL = '108';
+export const DASHBOARD = '105';
+export const MOEI_FUEL_PRICE_REPORTS = '106';
+export const USERS_MANAGEMENT = '594';
+export const SYSTEM_MAINTENANCE = '111';
+export const ROLE_MANAGEMENT = '123';
+export const RSSFEED_CONFIG = '128';
