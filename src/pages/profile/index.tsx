@@ -1,10 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import Header from '@/components/header/Header';
 
 export const Profile = () => {
   return (
     <>
+      <Header />
       <h2>Profile page</h2>
-      <NavLink to='/login'>Login</NavLink>
     </>
   );
 };

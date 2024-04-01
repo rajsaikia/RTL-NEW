@@ -1,7 +1,7 @@
+import Header from '@/components/header/Header';
 import Legacy from '@/components/legacy/Legacy';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/routing/authProvider';
-import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const { login, logout } = useAuth();
@@ -13,6 +13,7 @@ const Login = () => {
   };
   return (
     <>
+      <Header />
       <div className='flex  text-center align-middle flex-col items-center pb-30 pt-4'>
         <div className='w-[300px] flex flex-col'>
           <Button size='lg' className='mb-4' onClick={handleClick}>
@@ -23,7 +24,6 @@ const Login = () => {
         </div>
       </div>
       <div>
-        <NavLink to='/'>home</NavLink>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </>
