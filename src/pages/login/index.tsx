@@ -1,31 +1,33 @@
-import Legacy from "@/components/legacy/Legacy"
-import { Button } from "@/components/ui/button"
-import { AuthContext } from '@/routing/authProvider';
-import React from "react";
-
+import Legacy from '@/components/legacy/Legacy';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/routing/authProvider';
+import { NavLink } from 'react-router-dom';
 
 const Login = () => {
-  const { login } = React.useContext(AuthContext);
-    const handleClick = () =>{
-        console.log('yyy');
-        login();
-    }
+  const { login, logout } = useAuth();
+  const handleClick = () => {
+    login();
+  };
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
-      <div className="flex  text-center align-middle flex-col items-center pb-30 pt-4">
+      <div className='flex  text-center align-middle flex-col items-center pb-30 pt-4'>
         <div className='w-[300px] flex flex-col'>
-          <Button size="lg" className='mb-4' onClick={handleClick}>Sign  in with UAE PASS</Button>
-          <small>
-            A single trusted digital identify for all citizens, residents and visitors.
-          </small>
+          <Button size='lg' className='mb-4' onClick={handleClick}>
+            Sign in with UAE PASS
+          </Button>
+          <small>A single trusted digital identify for all citizens, residents and visitors.</small>
           <Legacy />
         </div>
       </div>
-
+      <div>
+        <NavLink to='/'>home</NavLink>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     </>
+  );
+};
 
-  )
-}
-
-export default Login
-
+export default Login;

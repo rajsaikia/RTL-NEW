@@ -1,14 +1,12 @@
-// import { UseDispatch, useDispatch } from "react-redux";
+import { NavLink } from 'react-router-dom';
 
+export const Profile = () => {
+  return (
+    <>
+      <h2>Profile page</h2>
+      <NavLink to='/login'>Login</NavLink>
+    </>
+  );
+};
 
-export const Profile =() =>{
-    // const dispatch = useDispatch();
-
-    return (
-        <>
-        <h2>Profile</h2>
-        </>
-    )
-}
-
-export default Profile; 
+export default Profile;
