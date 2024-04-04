@@ -1,30 +1,34 @@
-import Header from '@/components/header/Header';
-import Legacy from '@/components/legacy/Legacy';
-import { Button } from '@/components/ui/button';
 import { useAuth } from '@/routing/authProvider';
-
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
-  const { login, logout } = useAuth();
-  const handleClick = () => {
-    login();
-  };
-  const handleLogout = () => {
-    logout();
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleClick = async () => {
+    const tocken = await fetch('https://dummyjson.com/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'kminchelle',
+        password: '0lelplR',
+        expiresInMins: 30, // optional, defaults to 60
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        window.sessionStorage.setItem('AuthTocken', data.token);
+        console.log(data);
+        return data.token;
+      });
+    if (tocken) {
+      login();
+      navigate('/home');
+    }
   };
   return (
     <>
-      <Header />
-      <div className='flex  text-center align-middle flex-col items-center pb-30 pt-4'>
-        <div className='w-[300px] flex flex-col'>
-          <Button size='lg' className='mb-4' onClick={handleClick}>
-            Sign in with UAE PASS
-          </Button>
-          <small>A single trusted digital identify for all citizens, residents and visitors.</small>
-          <Legacy />
-        </div>
-      </div>
       <div>
-        <button onClick={handleLogout}>Logout</button>
+        <button onClick={handleClick}>Login</button>
       </div>
     </>
   );

@@ -1,6 +1,23 @@
 import logo from '@/assets/logo-uaemei.jpg';
-import { NavLink } from 'react-router-dom';
+import { useAuth } from '@/routing/authProvider';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 export default function Header() {
+  const authTocken = window.sessionStorage.getItem('AuthTocken');
+
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogin = () => {
+    navigate('/');
+  };
+
+  const handleLogout = () => {
+    logout();
+    window.sessionStorage.removeItem('AuthTocken');
+    console.log(authTocken);
+    navigate('/home');
+  };
   return (
     <>
       <img src={logo} alt='logo' width={420} className='mb-20 mt-2' />
@@ -15,12 +32,19 @@ export default function Header() {
         <li>
           <NavLink to='/home'>home</NavLink>
         </li>
-        <li>
-          <NavLink to='/'>profile</NavLink>
-        </li>
-        <li>
-          <NavLink to='/login'>login</NavLink>
-        </li>
+        {authTocken !== null && (
+          <>
+            <li>
+              <NavLink to='/about'>About</NavLink>
+            </li>
+            <li>
+              <NavLink to='/dashboard'>Dashboard</NavLink>
+            </li>
+          </>
+        )}
+
+        <li onClick={handleLogin}>Login</li>
+        <li onClick={handleLogout}>Logout</li>
       </ul>
     </>
   );
